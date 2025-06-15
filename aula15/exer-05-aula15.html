@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- REACT LIBRARY -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <!-- REACT DOM LIBRARY -->
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- BABEL LIBRARY -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="raiz">Seu APP React vai substituir essa div</div>
+  <script type="text/babel">
+    function FormularioLogin() {
+      const [formData, setFormData] = React.useState({
+        usuario: '',
+        senha: ''
+      });
+
+      const [logadoComSucesso, setLogadoComSucesso] = React.useState(false);
+      const [mensagemErro, setMensagemErro] = React.useState(null);
+
+      function handleChange(event) {
+        const { name, value } = event.target;
+        setFormData(prev => ({
+          ...prev,
+          [name]: value
+        }));
+      }
+
+      function handleLogin() {
+        if (formData.usuario.trim() === '') {
+          setMensagemErro("Por favor, digite seu usuário.");
+        } else {
+          setMensagemErro(null);
+          setLogadoComSucesso(true);
+        }
+      }
+
+      return (
+        <div>
+          {logadoComSucesso ? (
+            <h2>Login bem-sucedido! Bem-vindo, {formData.usuario}!</h2>
+          ) : (
+            <>
+              <h2>Login</h2>
+              <input
+                type="text"
+                name="usuario"
+                placeholder="Usuário"
+                value={formData.usuario}
+                onChange={handleChange}
+              />
+              <br />
+              <input
+                type="password"
+                name="senha"
+                placeholder="Senha"
+                value={formData.senha}
+                onChange={handleChange}
+              />
+              <br />
+              <button onClick={handleLogin}>Entrar</button>
+              {mensagemErro && <p style={{ color: 'red' }}>{mensagemErro}</p>}
+            </>
+          )}
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <div>
+          <h1>Meu App React + JSX</h1>
+          <FormularioLogin />
+        </div>
+      );
+    }
+
+    const elementoDoApp = document.getElementById("raiz");
+    const aplicacao = ReactDOM.createRoot(elementoDoApp);
+    aplicacao.render(<App />);
+  </script>
+</body>
+
+</html>
